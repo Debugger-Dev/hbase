@@ -1,0 +1,46 @@
+hbase shell
+2023-01-28 22:47:39,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+HBase Shell
+Use "help" to get list of supported commands.
+Use "exit" to quit this interactive shell.
+For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell
+
+TABLE                                                                                                                                                                  
+0 row(s)
+Took 0.4829 seconds  
+
+hbase(main):002:0> status
+1 active master, 0 backup masters, 1 servers, 0 dead, 2.0000 average load
+Took 0.1141 seconds
+
+hbase(main):004:0> create 'customer','address','order' 
+Created table customer
+Took 0.8190 seconds                                                                                                                                                    
+=> Hbase::Table - customer
+hbase(main):005:0> list
+TABLE                                                                                                                                                                  
+customer                                                                                                                                                               
+1 row(s)
+Took 0.0138 seconds                                                                                                                                                    
+=> ["customer"]
+
+hbase(main):006:0> put 'customer','Dev','address:city','BBSR'
+Took 0.1747 seconds                                                                                                                                                    
+hbase(main):007:0> put 'customer','Dev','address:state','Odisha'
+Took 0.0055 seconds                                                                                                                                                    
+hbase(main):008:0> put 'customer','Dev','address:country','India'
+Took 0.0065 seconds                                                                                                                                                    
+hbase(main):009:0> put 'customer','Dev','order:order_id','100_01'
+Took 0.0078 seconds                                                                                                                                                    
+hbase(main):010:0> put 'customer','Dev','order:order_quan','70'
+Took 0.0075 seconds   
+
+hbase(main):011:0> get 'customer','Dev'
+COLUMN                                     CELL                                                                                                                        
+ address:city                              timestamp=1674926979719, value=BBSR                                                                                         
+ address:country                           timestamp=1674927004431, value=India                                                                                        
+ address:state                             timestamp=1674926992092, value=Odisha                                                                                       
+ order:order_id                            timestamp=1674927031537, value=100_01                                                                                       
+ order:order_quan                          timestamp=1674927047966, value=70                                                                                           
+1 row(s)
+Took 0.0743 seconds 
