@@ -44,3 +44,44 @@ COLUMN                                     CELL
  order:order_quan                          timestamp=1674927047966, value=70                                                                                           
 1 row(s)
 Took 0.0743 seconds 
+
+hbase(main):012:0> scan 'customer'
+ROW                                    COLUMN+CELL                                                                                                    
+ Dev                                   column=address:city, timestamp=1674926979719, value=BBSR                                                       
+ Dev                                   column=address:country, timestamp=1674927004431, value=India                                                   
+ Dev                                   column=address:state, timestamp=1674926992092, value=Odisha                                                    
+ Dev                                   column=order:order_id, timestamp=1674927031537, value=100_01                                                   
+ Dev                                   column=order:order_quan, timestamp=1674927047966, value=70                                                     
+1 row(s)
+Took 0.0260 seconds         
+
+
+hbase(main):013:0> put 'customer','Acast','order:order_id','100_02'
+Took 0.0122 seconds                                                                                                                                   
+hbase(main):014:0> put 'customer','Acast','address:country','USA'
+Took 0.0042 seconds                                                                                                                                   
+hbase(main):015:0> scan customer
+NameError: undefined local variable or method `customer' for main:Object
+
+hbase(main):016:0> scan 'customer'
+ROW                                    COLUMN+CELL                                                                                                    
+ Acast                                 column=address:country, timestamp=1674930709052, value=USA                                                     
+ Acast                                 column=order:order_id, timestamp=1674930682126, value=100_02                                                   
+ Dev                                   column=address:city, timestamp=1674926979719, value=BBSR                                                       
+ Dev                                   column=address:country, timestamp=1674927004431, value=India                                                   
+ Dev                                   column=address:state, timestamp=1674926992092, value=Odisha                                                    
+ Dev                                   column=order:order_id, timestamp=1674927031537, value=100_01                                                   
+ Dev                                   column=order:order_quan, timestamp=1674927047966, value=70                                                     
+2 row(s)
+Took 0.0200 seconds                        
+
+
+hbase(main):018:0> get 'customer','Acast'
+COLUMN                                 CELL                                                                                                           
+ address:country                       timestamp=1674930709052, value=USA                                                                             
+ order:order_id                        timestamp=1674930682126, value=100_02                                                                          
+1 row(s)
+Took 0.0196 seconds  
+
+
+
