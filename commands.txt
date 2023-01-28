@@ -45,3 +45,12 @@ COLUMN                                     CELL
 1 row(s)
 Took 0.0743 seconds 
 
+hbase(main):012:0> scan 'customer'
+ROW                                    COLUMN+CELL                                                                                                    
+ Dev                                   column=address:city, timestamp=1674926979719, value=BBSR                                                       
+ Dev                                   column=address:country, timestamp=1674927004431, value=India                                                   
+ Dev                                   column=address:state, timestamp=1674926992092, value=Odisha                                                    
+ Dev                                   column=order:order_id, timestamp=1674927031537, value=100_01                                                   
+ Dev                                   column=order:order_quan, timestamp=1674927047966, value=70                                                     
+1 row(s)
+Took 0.0260 seconds                                     
