@@ -84,5 +84,118 @@ COLUMN                                 CELL
 Took 0.0196 seconds  
 
 
+hbase(main):002:0> drop 'customer'
+
+ERROR: Table customer is enabled. Disable it first.
+
+For usage try 'help "drop"'
+
+Took 0.1277 seconds 
+
+
+hbase(main):003:0> disable 'customer'
+Took 0.4881 seconds            
+
+hbase(main):009:0> describe 'customer'
+Table customer is DISABLED                                                                                                                                             
+customer                                                                                                                                                               
+COLUMN FAMILIES DESCRIPTION                                                                                                                                            
+{NAME => 'address', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', 
+DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', IN_MEMORY => 'fa
+lse', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                         
+
+{NAME => 'order', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', DA
+TA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', IN_MEMORY => 'fals
+e', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                           
+
+2 row(s)
+
+QUOTAS                                                                                                                                                                 
+0 row(s)
+Took 0.0559 seconds    
+
+
+
+hbase(main):006:0> enable 'customer'
+Took 0.7614 seconds  
+
+hbase(main):007:0> describe 'customer'
+Table customer is ENABLED                                                                                                                                              
+customer                                                                                                                                                               
+COLUMN FAMILIES DESCRIPTION                                                                                                                                            
+{NAME => 'address', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', 
+DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', IN_MEMORY => 'fa
+lse', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                         
+
+{NAME => 'order', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'false', DA
+TA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', IN_MEMORY => 'fals
+e', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}                           
+
+2 row(s)
+
+QUOTAS                                                                                                                                                                 
+0 row(s)
+Took 0.1757 seconds   
+
+
+
+
+hbase(main):015:0> scan 'customer'
+ROW                                        COLUMN+CELL                                                                                                                 
+ Dev                                       column=address:country, timestamp=1674972784628, value=India                                                                
+ Dev                                       column=order:order_id, timestamp=1674972806528, value=100_01                                                                
+1 row(s)
+Took 0.0220 seconds                                                                                                                                                    
+hbase(main):016:0> delete 'customer','Dev','address:country','India'
+
+ERROR: no constructor for arguments (org.jruby.java.proxies.ArrayJavaProxy,org.jruby.RubyString) on Java::OrgApacheHadoopHbaseClient::Delete
+
+For usage try 'help "delete"'
+
+Took 0.0109 seconds                                                                                                                                                    
+hbase(main):017:0> delete 'customer','Dev','address:country'
+Took 0.0083 seconds                                                                                                                                                    
+hbase(main):018:0> scan 'customer'
+ROW                                        COLUMN+CELL                                                                                                                 
+ Dev                                       column=order:order_id, timestamp=1674972806528, value=100_01                                                                
+1 row(s)
+Took 0.0086 seconds                                                                                                                                                    
+hbase(main):019:0> 
+
+
+
+
+hbase(main):019:0> count 'customer'
+1 row(s)
+Took 0.0667 seconds                                                                                                                                                    
+=> 1
+
+
+Took 0.0072 seconds                                                                                                                                                    
+hbase(main):022:0> disable 'customer'
+Took 0.7550 seconds                                                                                                                                                    
+hbase(main):023:0> drop 'customer'
+Took 0.2479 seconds                                                                                                                                                    
+hbase(main):024:0> list
+TABLE                                                                                                                                                                  
+0 row(s)
+Took 0.0043 seconds                                                                                                                                                    
+=> []
+hbase(main):025:0> status
+1 active master, 0 backup masters, 1 servers, 0 dead, 2.0000 average load
+Took 0.1051 seconds                                                                                                                                                    
+hbase(main):026:0> version
+2.2.4, r67779d1a325a4f78a468af3339e73bf075888bac, 2020年 03月 11日 星期三 12:57:39 CST
+Took 0.0015 seconds  
+
+
+hbase(main):040:0> get 'customer','Dev','address'
+COLUMN                                     CELL                                                                                                                        
+ address:city                              timestamp=1674974047313, value=India                                                                                        
+ address:country                           timestamp=1674974097106, value=Asia                                                                                         
+ address:state                             timestamp=1674974084388, value=Earth                                                                                        
+1 row(s)
+Took 0.0190 seconds                                                                                                                                                    
+hbase(main):041:0> 
 
 
