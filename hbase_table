@@ -1,3 +1,4 @@
+                  #########  START HBase Shell  ##########
 hbase shell
 2023-01-28 22:47:39,472 WARN  [main] util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
 HBase Shell
@@ -5,18 +6,24 @@ Use "help" to get list of supported commands.
 Use "exit" to quit this interactive shell.
 For Reference, please visit: http://hbase.apache.org/2.0/book.html#shell
 
-TABLE                                                                                                                                                                  
+
+##### TABLE LIST
+list                                                                                                                                                                  
 0 row(s)
 Took 0.4829 seconds  
 
+#####  STATUS
 hbase(main):002:0> status
 1 active master, 0 backup masters, 1 servers, 0 dead, 2.0000 average load
 Took 0.1141 seconds
 
+
+#### CREATE A TABLE CUSTOMER WITH SCHEMA WITH 2 COLUMN FAMILY 
 hbase(main):004:0> create 'customer','address','order' 
 Created table customer
 Took 0.8190 seconds                                                                                                                                                    
 => Hbase::Table - customer
+
 hbase(main):005:0> list
 TABLE                                                                                                                                                                  
 customer                                                                                                                                                               
@@ -24,6 +31,8 @@ customer
 Took 0.0138 seconds                                                                                                                                                    
 => ["customer"]
 
+
+####  ENTER SOME DATA INTO TABLE
 hbase(main):006:0> put 'customer','Dev','address:city','BBSR'
 Took 0.1747 seconds                                                                                                                                                    
 hbase(main):007:0> put 'customer','Dev','address:state','Odisha'
@@ -35,6 +44,7 @@ Took 0.0078 seconds
 hbase(main):010:0> put 'customer','Dev','order:order_quan','70'
 Took 0.0075 seconds   
 
+#### FETCH THE DATA ,LIKE SELECT-WHERE STATEMENT(DQL)
 hbase(main):011:0> get 'customer','Dev'
 COLUMN                                     CELL                                                                                                                        
  address:city                              timestamp=1674926979719, value=BBSR                                                                                         
@@ -45,6 +55,7 @@ COLUMN                                     CELL
 1 row(s)
 Took 0.0743 seconds 
 
+#### FETCH ALL DATA ,SELECT *
 hbase(main):012:0> scan 'customer'
 ROW                                    COLUMN+CELL                                                                                                    
  Dev                                   column=address:city, timestamp=1674926979719, value=BBSR                                                       
@@ -55,7 +66,7 @@ ROW                                    COLUMN+CELL
 1 row(s)
 Took 0.0260 seconds         
 
-
+##### ADDING SOME MORE DATA
 hbase(main):013:0> put 'customer','Acast','order:order_id','100_02'
 Took 0.0122 seconds                                                                                                                                   
 hbase(main):014:0> put 'customer','Acast','address:country','USA'
@@ -84,6 +95,8 @@ COLUMN                                 CELL
 Took 0.0196 seconds  
 
 
+
+##### DROPPING A TABLE ,CANT DELETE A ENABLED TABLE
 hbase(main):002:0> drop 'customer'
 
 ERROR: Table customer is enabled. Disable it first.
@@ -92,7 +105,7 @@ For usage try 'help "drop"'
 
 Took 0.1277 seconds 
 
-
+###### DISABLING A TABLE
 hbase(main):003:0> disable 'customer'
 Took 0.4881 seconds            
 
@@ -197,5 +210,130 @@ COLUMN                                     CELL
 1 row(s)
 Took 0.0190 seconds                                                                                                                                                    
 hbase(main):041:0> 
+
+
+ROW                                      COLUMN+CELL                                                                                                           
+ BAC                                     column=address:city, timestamp=1675077596376, value=RRSE                                                              
+ BAC                                     column=address:state, timestamp=1675077607722, value=OPI                                                              
+ Dev                                     column=address:city, timestamp=1675077567845, value=BBSR                                                              
+ Dev                                     column=address:state, timestamp=1675077576611, value=Odisha                                                           
+2 row(s)
+Took 0.0291 seconds                                                                                                                                            
+hbase(main):007:0> delete 'customer','BAC'
+
+ERROR: wrong number of arguments (2 for 3)
+
+For usage try 'help "delete"'
+
+Took 0.0155 seconds                                                                                                                                            
+hbase(main):008:0> delete 'customer','BAC','address:city','RRSE'
+
+ERROR: no constructor for arguments (org.jruby.java.proxies.ArrayJavaProxy,org.jruby.RubyString) on Java::OrgApacheHadoopHbaseClient::Delete
+
+For usage try 'help "delete"'
+
+Took 0.0081 seconds                                                                                                                                            
+hbase(main):009:0> delete 'customer','BAC','address:city'
+Took 0.0076 seconds                                                                                                                                            
+hbase(main):010:0> scan 'customer'
+ROW                                      COLUMN+CELL                                                                                                           
+ BAC                                     column=address:state, timestamp=1675077607722, value=OPI                                                              
+ Dev                                     column=address:city, timestamp=1675077567845, value=BBSR                                                              
+ Dev                                     column=address:state, timestamp=1675077576611, value=Odisha                                                           
+2 row(s)
+Took 0.0200 seconds       
+
+
+
+ROW                                      COLUMN+CELL                                                                                                           
+ BAC                                     column=address:state, timestamp=1675077607722, value=OPI                                                              
+ Dev                                     column=address:city, timestamp=1675077567845, value=BBSR                                                              
+ Dev                                     column=address:state, timestamp=1675077576611, value=Odisha                                                           
+2 row(s)
+Took 0.0096 seconds                                                                                                                                            
+hbase(main):013:0> alter 'customer','delete'=>'address'
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+Took 1.8628 seconds                                                                                                                                            
+hbase(main):014:0> scan 'customer'
+ROW                                      COLUMN+CELL                                                                                                           
+0 row(s)
+Took 0.0042 seconds                                                                                                                                            
+hbase(main):015:0> 
+
+
+hbase(main):015:0> create 'employee',{NAME=>'address'}
+Created table employee
+Took 0.7366 seconds                                                                                                                                            
+=> Hbase::Table - employee
+hbase(main):016:0> list
+TABLE                                                                                                                                                          
+customer                                                                                                                                                       
+employee                                                                                                                                                       
+2 row(s)
+Took 0.0285 seconds                                                                                                                                            
+=> ["customer", "employee"]
+hbase(main):017:0> 
+
+hbase(main):018:0> scan 'employee'
+ROW                                      COLUMN+CELL                                                                                                           
+0 row(s)
+Took 0.0167 seconds                                                                                                                                            
+hbase(main):019:0> describe 'employee'
+Table employee is ENABLED                                                                                                                                      
+employee                                                                                                                                                       
+COLUMN FAMILIES DESCRIPTION                                                                                                                                    
+{NAME => 'address', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => '
+false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', 
+IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'} 
+
+1 row(s)
+
+QUOTAS                                                                                                                                                         
+0 row(s)
+Took 0.0625 seconds     
+
+
+
+
+##########      VERSIONING     ################
+hbase(main):022:0> create 'employee1',{NAME=>'address',VERSIONS=>3}
+Created table employee1
+Took 0.7219 seconds                                                                                                                                            
+=> Hbase::Table - employee1
+hbase(main):023:0> describe 'employee1'
+Table employee1 is ENABLED                                                                                                                                     
+employee1                                                                                                                                                      
+COLUMN FAMILIES DESCRIPTION                                                                                                                                    
+{NAME => 'address', VERSIONS => '3', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => '
+false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', 
+IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'} 
+
+1 row(s)
+
+QUOTAS                                                                                                                                                         
+0 row(s)
+Took 0.0713 seconds   
+
+
+hbase(main):024:0> alter 'employee1',NAME=>'address',VERSIONS=>5
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+Took 1.8535 seconds                                                                                                                                            
+hbase(main):025:0> describe 'employee1'
+Table employee1 is ENABLED                                                                                                                                     
+employee1                                                                                                                                                      
+COLUMN FAMILIES DESCRIPTION                                                                                                                                    
+{NAME => 'address', VERSIONS => '5', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => '
+false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', 
+IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'} 
+
+1 row(s)
+
+QUOTAS                                                                                                                                                         
+0 row(s)
+Took 0.0375 seconds    
 
 
