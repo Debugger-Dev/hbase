@@ -337,3 +337,48 @@ QUOTAS
 Took 0.0375 seconds    
 
 
+######  VERSIONING
+hbase(main):029:0> create 'student',{NAME=>'personal',VERSIONS=>5},'school'
+Created table student
+Took 0.7281 seconds                                                                                                                                            
+=> Hbase::Table - student
+hbase(main):030:0> describe 'student'
+Table student is ENABLED                                                                                                                                       
+student                                                                                                                                                        
+COLUMN FAMILIES DESCRIPTION                                                                                                                                    
+{NAME => 'personal', VERSIONS => '5', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 
+'false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false',
+ IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}
+
+{NAME => 'school', VERSIONS => '1', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'f
+alse', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', I
+N_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}  
+
+2 row(s)
+
+QUOTAS                                                                                                                                                         
+0 row(s)
+Took 0.0488 seconds      
+
+hbase(main):031:0> alter 'student',NAME=>'school',VERSIONS=>5
+Updating all regions with the new schema...
+1/1 regions updated.
+Done.
+Took 1.9175 seconds                                                                                                                                            
+hbase(main):032:0> describe 'student'
+Table student is ENABLED                                                                                                                                       
+student                                                                                                                                                        
+COLUMN FAMILIES DESCRIPTION                                                                                                                                    
+{NAME => 'personal', VERSIONS => '5', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 
+'false', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false',
+ IN_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}
+
+{NAME => 'school', VERSIONS => '5', EVICT_BLOCKS_ON_CLOSE => 'false', NEW_VERSION_BEHAVIOR => 'false', KEEP_DELETED_CELLS => 'FALSE', CACHE_DATA_ON_WRITE => 'f
+alse', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', MIN_VERSIONS => '0', REPLICATION_SCOPE => '0', BLOOMFILTER => 'ROW', CACHE_INDEX_ON_WRITE => 'false', I
+N_MEMORY => 'false', CACHE_BLOOMS_ON_WRITE => 'false', PREFETCH_BLOCKS_ON_OPEN => 'false', COMPRESSION => 'NONE', BLOCKCACHE => 'true', BLOCKSIZE => '65536'}  
+
+2 row(s)
+
+QUOTAS                                                                                                                                                         
+0 row(s)
+Took 0.0435 seconds     
